@@ -14,10 +14,10 @@ RUN set -eux; \
     mkdir -p /home/java-app/lib /home/java-app/etc /home/java-app/jmx-ssl /home/java-app/logs /home/java-app/tmp /home/java-app/jmx-exporter/lib /home/java-app/jmx-exporter/etc; \
     chown -R java-app:java-app /home/java-app
 
-# 导入启动脚本
+# 啟動
 COPY --chown=java-app:java-app docker-entrypoint.sh /home/java-app/docker-entrypoint.sh
 
-# 导入JAR
+# JAR
 COPY --chown=java-app:java-app target/${JAR_FILE} /home/java-app/lib/app.jar
 
 USER java-app

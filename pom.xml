@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tw.com.thinkpower</groupId>
-	<artifactId>demo2</artifactId>
+	<artifactId>cathay</artifactId>
 	<version>0.0.1</version>
-	<name>demo2</name>
+	<name>cathay</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
