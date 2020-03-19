@@ -1,0 +1,120 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:9.6.2
+    networks:
+      default:
+        aliases:
+          - postgres
+    volumes:
+      - /Users/ed/DB/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "0.0.0.0:5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1qaz2wsx
+  redis:
+    image: redis:3.2
+    networks:
+      default:
+        aliases:
+          - redis
+    ports:
+      - "0.0.0.0:6379:6379"
+  mongo:
+    image: mongo:3.4
+    volumes:
+      - /Users/ed/DB/mongo/db:/data/db
+    ports:
+      - "0.0.0.0:27017:27017"
+  # mysql:
+  #    image: mysql:5.7
+  #    volumes:
+  #      - /Users/ed/DB/mysql:/var/lib/mysql
+  #    restart: always
+  #    environment:
+  #      - MYSQL_ROOT_PASSWORD=1qaz2wsx
+  #      - MYSQL_DATABASE=TestDB
+  #      - MYSQL_USER=ed
+  #      - MYSQL_PASSWORD=1qaz2wsx
+
+  maria:
+    image: mariadb
+    networks:
+      default:
+        aliases:
+          - maria
+    restart: always
+    command: --lower_case_table_names=1
+    volumes:
+       - /Users/ed/DB/mysql:/var/lib/mysql
+    environment:
+       MYSQL_ROOT_PASSWORD: 1qaz2wsxz
+    ports:
+      - "127.0.0.1:3306:3306"
+  # activemq:
+  #   image: webcenter/activemq:5.14.3ß
+  #   ports:
+  #     - "0.0.0.0:8161:8161"
+  #     - "0.0.0.0:61616:61616"
+  #     - "0.0.0.0:61613:61613"
+  # zookeeper:
+  #   image: zookeeper:3.4
+  #   ports:
+  #     - "0.0.0.0:2181:2181"
+  #   environment:
+  #     - ZOO_TICK_TIME=5000
+  # solr:
+  #   image: solr:6.4
+  #   ports:
+  #     - "0.0.0.0:8983:8983"
+  jenkins:
+    image: jenkins/jenkins:lts
+    networks:
+      default:
+        aliases:
+          - jenkins
+    # command: ["/bin/chown", "-R", "1000", "/var/jenkins_home"]
+    ports:
+      - "18080:8080"
+      - "50000:50000"
+    volumes:
+      - /Users/ed/EDJava/apache-maven-3.5.4:/usr/local/maven
+      - /Users/ed/DB/adoptopenjdk-8.jdk:/usr/local/jdk
+      - data_share:/var/jenkins_home
+  lab_api:
+    image: openjdk:8u141-jdk
+    volumes:
+      - data_share:/demo/target
+      # - /opt/hongyun/config:/hongyun/config
+    networks:
+      default:
+        aliases:
+          - lab_api
+    ports:
+      - "0.0.0.0:9478:9478"
+    command: java -version
+
+  # sonarqube:
+  #   image: sonarqube:lts
+  #   container_name: 'DevOps_sonarqube'
+  #   ports:
+  #     - "9000:9000"
+  #   networks:
+  #     - sonarnet
+  #     - jenkinsnet
+  #   environment:
+  #     - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+  #   volumes:
+  #     - sonarqube_conf:/opt/sonarqube/conf
+  #     - sonarqube_data:/opt/sonarqube/data
+  #     - sonarqube_extensions:/opt/sonarqube/extensions
+  #     - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "0.0.0.0:8888:8080"
+volumes:
+  data_share:
